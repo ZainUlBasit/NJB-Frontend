@@ -8,17 +8,10 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { BillDetailColumns } from "../../assets/Columns/BillDetailColumns";
 
-export default function BillTable({ rows, setTotal }) {
+export default function BillTable({ rows }) {
   function ccyFormat(num) {
     return `${num.toFixed(2)}`;
   }
-
-  function getTotal(items) {
-    setTotal(
-      items.map((item) => item.totalAmount).reduce((sum, i) => sum + i, 0)
-    );
-  }
-  const invoiceTotal = getTotal(rows);
   const rowCellStyle = {
     fontFamily: "raleway",
     fontWeight: "700",
@@ -56,21 +49,20 @@ export default function BillTable({ rows, setTotal }) {
         <TableBody>
           {rows.map((val, i) => (
             <TableRow key={i} style={{ border: "1px solid #032248" }}>
-              <TableCell style={rowCellStyle}>{val.itemname}</TableCell>
+              <TableCell style={rowCellStyle}>{val.name}</TableCell>
               <TableCell align="right" style={rowCellStyle}>
-                {val.itemqty}
+                {val.qty}
               </TableCell>
               <TableCell align="right" style={rowCellStyle}>
-                {val.itemprice}
+                {val.price}
               </TableCell>
               <TableCell align="right" style={rowCellStyle}>
-                {val.totalamount}
+                {val.amount}
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      {getTotal(rows)}
     </TableContainer>
   );
 }

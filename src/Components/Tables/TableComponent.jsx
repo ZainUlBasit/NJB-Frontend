@@ -11,6 +11,8 @@ import TableRow from "@mui/material/TableRow";
 import { TableWrapper } from "./TableWrapper";
 import { useState } from "react";
 import { BannerHeader } from "../Banners/BannerHeader";
+import DataLoader from "../Loader/DataLoader";
+import LoadingError from "../Loader/LoadingError";
 
 export default function TableComp({
   rows,
@@ -20,6 +22,7 @@ export default function TableComp({
   setSelID,
   setEditItemModal,
   setEditCompanyModal,
+  setEditCustomerModal,
 }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -34,17 +37,23 @@ export default function TableComp({
   };
 
   const HandleDoubleClick = (e) => {
-    if (e.detail === 2) {
+    if (
+      e.detail === 2 &&
+      (title === "ITEM INFO" ||
+        title === "COMPANIES INFO" ||
+        title === "CUSTOMERS INFO")
+    ) {
       setSelID(e.target.id);
       // console.log(e.target.name);
       if (title === "ITEM INFO") setEditItemModal(true);
       if (title === "COMPANIES INFO") setEditCompanyModal(true);
+      if (title === "CUSTOMERS INFO") setEditCustomerModal(true);
     }
   };
   return rows.length == 0 ? (
-    <div>No Data Found</div>
+    <LoadingError />
   ) : (
-    <TableWrapper isAct={isActive_} width="80px">
+    <TableWrapper width="80px">
       <BannerHeader padding="20px 0px">{title.toUpperCase()}</BannerHeader>
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
         <TableContainer

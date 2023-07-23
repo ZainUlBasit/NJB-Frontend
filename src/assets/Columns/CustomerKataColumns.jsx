@@ -19,6 +19,13 @@ export const CustomerKataColumns = [
     format: (value) => value.toLocaleString("en-US"),
   },
   {
+    id: "discount",
+    label: "Discount",
+    minWidth: 140,
+    align: "right",
+    format: (value) => value.toLocaleString("en-US"),
+  },
+  {
     id: "remaining",
     label: "Remaining",
     minWidth: 200,

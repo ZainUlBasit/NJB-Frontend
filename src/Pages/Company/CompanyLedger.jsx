@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCompanies } from "../../store/Slices/CompanySlice";
 import CashLedger from "./CashLedger";
 import ItemLedger from "./ItemLedger";
+import DataLoader from "../../Components/Loader/DataLoader";
 
 const CompanyLedger = () => {
   const [FromDate, setFromDate] = useState(new Date());
@@ -15,7 +16,7 @@ const CompanyLedger = () => {
   const [isItem, setIsItem] = useState(false);
   const [value, setValue] = useState("");
   const [Select, setSelect] = useState({
-    name: "",
+    id: "",
     found: false,
   });
   const [ShowMsg, setShowMsg] = useState(false);
@@ -52,6 +53,7 @@ const CompanyLedger = () => {
   };
 
   // redux toolkit
+  let Loading = useSelector((state) => state.CompanyReducer.loading);
   let Companies = useSelector((state) => state.CompanyReducer.data);
   const dispatch = useDispatch();
   // Use Effects
@@ -63,33 +65,37 @@ const CompanyLedger = () => {
     <>
       <Navbar />
       <CompanyNav />
-      <LedgerComp
-        title="COMPANY LEDGER"
-        Ledger
-        fromDate={FromDate}
-        toDate={ToDate}
-        value={value}
-        onChangeFunc={onChangeFunc}
-        onSearch={onSearch}
-        onChange={setFromDate}
-        onChange1={setToDate}
-        handleItem={handleItem}
-        handleCash={handleCash}
-        setSelectCompany={setSelect}
-        SelectCompany={Select}
-        DefOption="Select Company..."
-        Options={Companies}
-      />
+      {Loading ? (
+        <DataLoader />
+      ) : (
+        <LedgerComp
+          title="COMPANY LEDGER"
+          Ledger
+          fromDate={FromDate}
+          toDate={ToDate}
+          value={value}
+          onChangeFunc={onChangeFunc}
+          onSearch={onSearch}
+          onChange={setFromDate}
+          onChange1={setToDate}
+          handleItem={handleItem}
+          handleCash={handleCash}
+          setSelectCompany={setSelect}
+          SelectCompany={Select}
+          DefOption="Select Company..."
+          Options={Companies}
+        />
+      )}
       {ShowMsg ? (
         <div className="w-[100%] flex justify-center">
           <div className="bg-red-700 text-white w-[80%] p-[10px] pr-[0px] border-[#032248] border-t-white border-[5px] border-t-[3px] font-[raleway] text-[1.3rem] font-bold">
             Please Select Company...!
           </div>
         </div>
-      ) : isCash ? (
-        <CashLedger />
-      ) : isItem ? (
-        <ItemLedger />
+      ) : isCash && Select.found ? (
+        <CashLedger id={Select.id} fromdate={FromDate} todate={ToDate} />
+      ) : isItem && Select.found ? (
+        <ItemLedger id={Select.id} fromdate={FromDate} todate={ToDate} />
       ) : (
         <></>
       )}

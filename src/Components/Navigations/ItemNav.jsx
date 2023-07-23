@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import { NavComp } from "./NavComp";
 import AdminNavButton from "./AdminNavButton";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";

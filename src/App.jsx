@@ -18,6 +18,8 @@ import ReportDaily from "./Pages/Report/ReportDaily";
 import CustomerLegder from "./Pages/Customer/CustomerLegder";
 import ItemReturn from "./Pages/Customer/ItemReturn";
 import Testing from "./Pages/Testing";
+import CompanyPayment from "./Pages/CashPayments/CompanyPayment";
+import CustomerPayment from "./Pages/CashPayments/CustomerPayment";
 
 const App = () => {
   return (
@@ -42,6 +44,9 @@ const App = () => {
         <Route path="/reports" element={<Report />} />
         <Route path="/reports_home" element={<ReportHome />} />
         <Route path="/reports_daily" element={<ReportDaily />} />
+        {/* Payment */}
+        <Route path="/company-payment" element={<CompanyPayment />} />
+        <Route path="/customer-payment" element={<CustomerPayment />} />
         {/* Testing */}
         <Route path="/testing" element={<Testing />} />
       </Routes>

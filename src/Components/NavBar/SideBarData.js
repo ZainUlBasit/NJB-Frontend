@@ -44,7 +44,7 @@ const SideBarData = [
   {
     key: "5",
     title: "Cash Payment",
-    path: "/cash_payment",
+    path: "/company-payment",
     icon: faMoneyCheck,
   },
 ];

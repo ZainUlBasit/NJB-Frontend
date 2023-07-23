@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../Components/NavBar/NavBar";
 import CustomerNav from "../../Components/Navigations/CustomerNav";
 import LedgerComp from "../../Components/Ledger/LegderComp";
 import CashLedger from "./CashLedger";
 import ItemLedger from "./ItemLedger";
+import { fetchCustomers } from "../../store/Slices/CustomerSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const CustomerLegder = () => {
+  const Customers = useSelector((state) => state.CustomerReducer.data);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchCustomers());
+  }, []);
   const [FromDate, setFromDate] = useState(new Date());
   const [ToDate, setToDate] = useState(new Date());
   const [isCash, setIsCash] = useState(false);
@@ -67,7 +74,7 @@ const CustomerLegder = () => {
         setSelectCompany={setSelect}
         SelectCompany={Select}
         DefOption="Select Customer..."
-        Options={[{}]}
+        Options={Customers}
       />
       {isCash ? (
         <CashLedger />

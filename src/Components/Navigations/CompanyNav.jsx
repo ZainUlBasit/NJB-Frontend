@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import { NavComp } from "./NavComp";
 import AdminNavButton from "./AdminNavButton";
 import InfoIcon from "@mui/icons-material/Info";
@@ -9,12 +8,11 @@ import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
 import AddCompany from "../Modals/AddCompany";
 
 const CompanyNav = () => {
-  const isActive_ = useSelector((state) => state.SideMenuReducer.ActiveState);
   const [Open, setOpen] = useState(false);
   return (
     <NavComp
-      isAct={isActive_}
-      className={isActive_ ? "isActiveStyling" : "isNotActiveStyling"}
+      isAct={false}
+      className={false ? "isActiveStyling" : "isNotActiveStyling"}
     >
       <div className="NavWrapper">
         <AdminNavButton

@@ -9,6 +9,5 @@ export const TableWrapper = styled.div`
   flex-direction: column;
   // margin: 0px 120px;
   width: 100%;
-  padding: ${(props) =>
-    props.isAct ? "0px 20px 0px 140px" : "0px 20px 0px 20px"};
+  padding: 0px 20px 0px 20px;
 `;

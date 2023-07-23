@@ -6,9 +6,11 @@ import TableComp from "../../Components/Tables/TableComponent";
 import { CompaniesKataColumns } from "../../assets/Columns/CompaniesKataColumns";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCompanies } from "../../store/Slices/CompanySlice";
+import DataLoader from "../../Components/Loader/DataLoader";
 
 const CompanyKata = () => {
   // redux toolkit
+  let Loading = useSelector((state) => state.CompanyReducer.loading);
   let Companies = useSelector((state) => state.CompanyReducer.data);
   const dispatch = useDispatch();
   // Use Effects
@@ -19,11 +21,15 @@ const CompanyKata = () => {
     <>
       <Navbar />
       <CompanyNav />
-      <TableComp
-        title="COMPANIES KATA"
-        rows={Companies}
-        columns={CompaniesKataColumns}
-      />
+      {Loading ? (
+        <DataLoader />
+      ) : (
+        <TableComp
+          title="COMPANIES KATA"
+          rows={Companies}
+          columns={CompaniesKataColumns}
+        />
+      )}
     </>
   );
 };

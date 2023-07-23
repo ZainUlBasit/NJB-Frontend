@@ -5,7 +5,12 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-export default function SimpleSelectComp({ value, setValue, label, data }) {
+export default function SimpleSelectCompByName({
+  value,
+  setValue,
+  label,
+  data,
+}) {
   const handleChange = (event) => {
     setValue(event.target.value);
   };
@@ -23,11 +28,7 @@ export default function SimpleSelectComp({ value, setValue, label, data }) {
           onChange={handleChange}
         >
           {data.map((d) => {
-            return (
-              <MenuItem value={d._id}>
-                {d.name || d.itemname}
-              </MenuItem>
-            );
+            return <MenuItem value={d.name}>{d.name || d.itemname}</MenuItem>;
           })}
         </Select>
       </FormControl>

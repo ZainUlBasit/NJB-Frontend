@@ -34,7 +34,7 @@ const SelectComp = ({ DefOption, Options, font_Size, setSelect }) => {
         onChange={(e) => {
           console.log("e.target.value");
           console.log(e.target.value);
-          setSelect({ name: e.target.value.toString(), found: true });
+          setSelect({ id: e.target.value.toString(), found: true });
         }}
         defaultValue={DefOption}
       >
@@ -43,7 +43,7 @@ const SelectComp = ({ DefOption, Options, font_Size, setSelect }) => {
         </option>
         {Options.map((Comp, i) => {
           return (
-            <option key={i} value={Comp.name || Comp.itemname}>
+            <option key={i} value={Comp._id}>
               {Comp.name || Comp.itemname}
             </option>
           );

@@ -4,17 +4,34 @@ import SimpleSelectComp from "../Select/SimpleSelectComp";
 import SimpleTextInput from "../Input/SimpleTextInput";
 import ModalBottomLine from "./ModalBottomLine";
 import ModalButton from "../Buttons/ModalButton";
+import { AddNewExpense } from "../../Https";
+import SimpleSelectCompByName from "../Select/SimpleSelectCompByName";
 
 const AddExpense = ({ open, setOpen }) => {
   // States
   const [ExpenseType, setExpenseType] = useState("");
-  const [CurDate, setCurDate] = useState(new Date());
+  const [CurDate, setCurDate] = useState("");
   const [Desc, setDesc] = useState("");
   const [Expense, setExpense] = useState("");
   // Functions
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    setOpen(false);
+    if (ExpenseType !== "" && CurDate !== "" && Desc !== "" && Expense !== "") {
+      const expenseInfo = {
+        type: ExpenseType,
+        date: CurDate,
+        desc: Desc,
+        expense: Expense,
+      };
+      const response = await AddNewExpense(expenseInfo);
+      if (response.status === 500) alert("Unable to add expense");
+      else if (response.status === 201) {
+        alert("Expense Succesfully Added...");
+        setOpen(false);
+      }
+    } else {
+      alert("Fill All Fields....");
+    }
   };
   return (
     <CustomModal title={"Add Expense"} open={open} setOpen={setOpen}>
@@ -22,15 +39,16 @@ const AddExpense = ({ open, setOpen }) => {
         className="flex flex-col justify-center items-center pt-[10px]"
         onSubmit={onSubmit}
       >
-        <SimpleSelectComp
+        <SimpleSelectCompByName
           value={ExpenseType}
           setValue={setExpenseType}
           label={"Select Expense Type"}
-          data={[{ name: "Shop" }, { name: "Home" }]}
+          data={[
+            { id: "Shop", name: "Shop" },
+            { id: "Home", name: "Home" },
+          ]}
         />
         <SimpleTextInput
-          label="Select Date"
-          placeholder="Select Date"
           type="date"
           id="date"
           name="date"

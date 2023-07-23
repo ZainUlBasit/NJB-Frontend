@@ -11,16 +11,20 @@ import TextField from "@mui/material/TextField";
 import SimpleTextInput from "../Input/SimpleTextInput";
 import ModalButton from "../Buttons/ModalButton";
 import ModalBottomLine from "./ModalBottomLine";
-import { AddNewCompany } from "../../Https";
+import { AddNewCompany, DeleteCompany, UpdateCompany } from "../../Https";
 import ModalUpdateButton from "../Buttons/ModalUpdateButton";
 import ModalDeleteButton from "../Buttons/ModalDeleteButton";
+import { useDispatch } from "react-redux";
+import { fetchCompanies } from "../../store/Slices/CompanySlice";
 
 export default function EditCompany({ open, setOpen, CompanyData }) {
   // States
+  const [Id, setId] = useState("");
   const [Username, setUsername] = useState("");
   const [Address, setAddress] = useState("");
   const [Desc, setDesc] = useState("");
   const [Contact, setContact] = useState("");
+  const dispatch = useDispatch();
   // Functions
   const onUpdate = async (e) => {
     e.preventDefault();
@@ -30,17 +34,33 @@ export default function EditCompany({ open, setOpen, CompanyData }) {
       desc: Desc,
       contact: Contact,
     };
-    alert("Update Clicked");
+    try {
+      const response = await UpdateCompany(Id, CompanyInfo);
+      if (response.status === 404) {
+        alert("Company not found...");
+      } else if (response.status === 200) {
+        alert("Company if Successfully Updated...");
+        dispatch(fetchCompanies());
+      }
+    } catch (err) {
+      console.log("Error occured...!");
+    }
+    setOpen(false);
   };
   const onDelete = async (e) => {
     e.preventDefault();
-    const CompanyInfo = {
-      name: Username,
-      address: Address,
-      desc: Desc,
-      contact: Contact,
-    };
-    alert("Delete Clicked");
+    try {
+      const response = await DeleteCompany(Id);
+      if (response.status === 400) {
+        alert("Bad Request");
+      } else if (response.status === 201) {
+        alert("Company successfully deleted...");
+        dispatch(fetchCompanies());
+      }
+    } catch (err) {
+      console.log("Error Occured:", err.message);
+    }
+    setOpen(false);
   };
   // Use Effects
   useEffect(() => {
@@ -53,6 +73,7 @@ export default function EditCompany({ open, setOpen, CompanyData }) {
       } else if (CompanyData[2] !== undefined) {
         temp = CompanyData[2];
       }
+      setId(temp._id);
       setUsername(temp.name);
       setAddress(temp.address);
       setDesc(temp.desc);
@@ -102,11 +123,11 @@ export default function EditCompany({ open, setOpen, CompanyData }) {
         />
         <ModalBottomLine />
         {/* <ModalButton title={"add new company"} /> */}
-        <div className="flex w-full justify-center mt-[20px] px-[20px]">
-          <ModalUpdateButton onClick={onUpdate} />
-          <ModalDeleteButton onClick={onDelete} />
-        </div>
       </form>
+      <div className="flex w-full justify-between mt-[20px] px-[20px]">
+        <ModalUpdateButton onClick={onUpdate} />
+        <ModalDeleteButton onClick={onDelete} />
+      </div>
     </CustomModal>
   );
 }

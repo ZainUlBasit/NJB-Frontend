@@ -32,21 +32,21 @@ export default function AddCompany({ open, setOpen }) {
       desc: Desc,
       contact: Contact,
     };
-    console.log(CompanyInfo);
-    const response = await AddNewCompany(CompanyInfo);
-    setOpen(false);
-    if (response.status === 201) {
-      dispatch(fetchCompanies());
-      alert("Company Successfully Added...");
+    try {
+      const response = await AddNewCompany(CompanyInfo);
+      if (response.status === 201) {
+        dispatch(fetchCompanies());
+        alert("Company Successfully Added...");
+      }
+    } catch (err) {
+      console.log("Error occured: ");
     }
+    setOpen(false);
   };
 
   return (
     <CustomModal title={"Add New Company"} open={open} setOpen={setOpen}>
-      <form
-        className="flex flex-col justify-center items-center"
-        onSubmit={onSubmit}
-      >
+      <form className="flex flex-col justify-center items-center">
         <SimpleTextInput
           label="Enter Name"
           placeholder="Enter Name"
@@ -84,8 +84,10 @@ export default function AddCompany({ open, setOpen }) {
           setValue={setDesc}
         />
         <ModalBottomLine />
-        <ModalButton title={"add new company"} />
       </form>
+      <div className="flex justify-center items-center">
+        <ModalButton title={"add new company"} onClick={onSubmit} />
+      </div>
     </CustomModal>
   );
 }

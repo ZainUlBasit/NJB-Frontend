@@ -7,50 +7,64 @@ import ModalBottomLine from "./ModalBottomLine";
 import ModalButton from "../Buttons/ModalButton";
 import { fetchCompanies } from "../../store/Slices/CompanySlice";
 import { useDispatch, useSelector } from "react-redux";
-import { AddNewItem } from "../../Https";
+import { AddNewItem, DeleteItem, UpdateItem } from "../../Https";
 import { fetchItems } from "../../store/Slices/ItemSlice";
+import ModalUpdateButton from "../Buttons/ModalUpdateButton";
+import ModalDeleteButton from "../Buttons/ModalDeleteButton";
 
-const AddItem = ({ open, setOpen }) => {
+const EditItem = ({ open, setOpen, SelItem }) => {
   // Functions
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    let curCompany = "";
-    Companies.filter((co) => {
-      if (co._id === ItemCompany) {
-        curCompany = co.name;
-      }
+  const setData = () => {
+    SelItem.map((item) => {
+      setItemID(item.id);
+      setItemName(item.name);
+      setItemCompany(item.company);
+      setItemDesc(item.desc);
+      setItemPurchase(item.purchase);
+      setItemSale(item.sale);
     });
+  };
+
+  // Methods
+  const onUpdate = async (e) => {
+    e.preventDefault();
     const ItemInfo = {
       name: ItemName,
-      company: curCompany,
+      company: ItemCompany,
       desc: ItemDesc,
       purchase: ItemPurchase,
       sale: ItemSale,
     };
-    if (
-      (ItemName !== "") &
-      (curCompany !== "") &
-      (ItemDesc !== "") &
-      (ItemPurchase !== "") &
-      (ItemSale !== "")
-    ) {
-      console.log(ItemInfo);
-      const response = await AddNewItem(ItemInfo);
-      setOpen(false);
-      if (response.status === 201) {
+    try {
+      const response = await UpdateItem(ItemID, ItemInfo);
+      if (response.status === 404) alert("Item Not found");
+      else if (response.status === 200) {
         dispatch(fetchItems());
-        alert("Item Successfully Added...");
+        alert("Item Successfully Updated...");
       }
-    } else {
-      alert("Please fill all fields");
+    } catch (err) {
+      console.log("Error Occured:", err.message);
+    }
+    setOpen(false);
+  };
+
+  const onDelete = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await DeleteItem(ItemID);
+      if (response.status === 400) {
+        alert("Bad Request");
+        setOpen(false);
+      } else if (response.status === 201) {
+        alert("Item successfully deleted...");
+        dispatch(fetchItems());
+        setOpen(false);
+      }
+    } catch (err) {
+      console.log("Error Occured:", err.message);
+      setOpen(false);
     }
   };
-  // States
-  const [ItemName, setItemName] = useState("");
-  const [ItemCompany, setItemCompany] = useState("");
-  const [ItemDesc, setItemDesc] = useState("");
-  const [ItemPurchase, setItemPurchase] = useState("");
-  const [ItemSale, setItemSale] = useState("");
 
   // redux toolkit
   let Companies = useSelector((state) => state.CompanyReducer.data);
@@ -58,14 +72,18 @@ const AddItem = ({ open, setOpen }) => {
   // Use Effects
   useEffect(() => {
     dispatch(fetchCompanies());
+    setData();
   }, []);
-
+  // States
+  const [ItemID, setItemID] = useState("");
+  const [ItemName, setItemName] = useState("");
+  const [ItemCompany, setItemCompany] = useState("");
+  const [ItemDesc, setItemDesc] = useState("");
+  const [ItemPurchase, setItemPurchase] = useState("");
+  const [ItemSale, setItemSale] = useState("");
   return (
-    <CustomModal title={"Add New Item"} open={open} setOpen={setOpen}>
-      <form
-        className="flex flex-col justify-center items-center pt-[10px]"
-        onSubmit={onSubmit}
-      >
+    <CustomModal title={"Edit Item"} open={open} setOpen={setOpen}>
+      <form className="flex flex-col justify-center items-center pt-[10px]">
         <SimpleTextInput
           label="Enter Item Name"
           placeholder="Enter Item Name"
@@ -109,10 +127,13 @@ const AddItem = ({ open, setOpen }) => {
           setValue={setItemSale}
         />
         <ModalBottomLine />
-        <ModalButton title={"Add Item"} />
       </form>
+      <div className="flex w-full justify-between mt-[20px] px-[20px]">
+        <ModalUpdateButton onClick={onUpdate} />
+        <ModalDeleteButton onClick={onDelete} />
+      </div>
     </CustomModal>
   );
 };
 
-export default AddItem;
+export default EditItem;

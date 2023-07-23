@@ -13,90 +13,66 @@ export const api = axios.create({
 // export const logoutUser = () => api.get("/logout");
 // export const AutoLogin = () => api.get("/refresh");
 
-// dashboard requests
-export const getTopSeller = () => api.get("/get-top-seller");
-export const getUnderSeller = () => api.get("/get-under-seller");
-
 // company request
 export const AddNewCompany = (data) => api.post("/add_company", data);
 export const GetAllCompanies = () => api.get("/get_companies");
-export const EditCompany = (id, data) => api.put("/update-company/" + id, data);
-export const UpdateCompanyTotal = (id, data) =>
-  api.post("/update-company-total/" + id, data);
+export const UpdateCompany = (id, data) =>
+  api.put("/update-company/" + id, data);
+export const UpdateCompanyTotal = (data) =>
+  api.post("/update-company-total", data);
+// update customer Account(+Paid and -Remaining)
+export const UpdateCompanyAccounts = (id, data) =>
+  api.put("/update-company-accounts/" + id, data);
 export const DeleteCompany = (id) => api.delete("./delete-company/" + id);
-// company transaction
-export const AddCompanyTransaction = (data) =>
-  api.post("/company-transaction", data);
-export const GetCompanyTransaction = (compInfo) =>
-  api.post("/get-company-transaction", compInfo);
-// company payments
-export const AddCompanyPayment = (data) => api.post("/company-payment", data);
-export const GetCompanyPayment = (data) =>
-  api.post("/get-company-payment", data);
-// id = company name || id1 = company shop
-export const UpdateCompanyPayment = (id, id1, data) =>
-  api.post("/update-company-payment/" + id + "/" + id1, data);
+export const GetItemLegder = (data) => api.post("/company-cash-legder", data);
 
 // item request
 export const AddNewItem = (data) => api.post("/add_item", data);
 export const GetAllItems = () => api.get("/items");
 export const UpdateItem = (id, data) => api.put("/update-item/" + id, data);
-export const UpdateItemQty = (id, data) =>
-  api.put("/update-item-qty/" + id, data);
 export const DeleteItem = (id) => api.delete("./delete-item/" + id);
+export const AddItemQty = (id, qty) => api.put("/add-stock/" + id + "/" + qty);
 
-// category request
-export const AddNewCategory = (data) => api.post("/add-category", data);
-export const getAllCategories = () => api.get("/category");
-export const UpdateCategory = (category, newCategory) =>
-  api.put("/update-category/" + category, newCategory);
-export const DeleteCategory = (category) =>
-  api.delete("/delete-category/" + category);
+// Stock Request
+export const AddItemStock = (data) => api.post("/stock", data);
+export const GetAllItemStock = () => api.get("/all_stock_statistics");
 
-// sub category request
-export const AddNewSubCategory = (data) => api.post("/add-subcategory", data);
-export const getAllSubCategories = () => api.get("/subcategory");
-export const UpdateSubCategory = (subCat, data) =>
-  api.put("/update-subcategory/" + subCat, data);
-export const DeleteSubCategory = (subcategory) =>
-  api.delete("/delete-subcategory/" + subcategory);
-export const getSubCategoriesByCompany = (company) =>
-  api.get("/subcategory/" + company);
-
-// ========================
-// customer request
-// ========================
-// custommer Page
-export const AddNewCustomer = (data) => api.post("/add-customer", data);
-export const GetAllCustomer = () => api.get("/customer");
-export const AddCustomerTransaction = (data) =>
-  api.post("/customer-transaction", data);
-export const GetCustomerTransaction = (cusInfo) =>
-  api.post("/get-customer-transaction", cusInfo);
-// Item page
-export const AddCustomerReturn = (data) => api.post("/customer-return", data);
-export const GetReturnsData = () => api.get("/get-returns");
-// export const GetCustomerReturn = (id, id1) =>
-// api.get("/customer-return/" + id + "/" + id1);
+// ======================================
+// Customer
+// ======================================
+//register customer
+export const RegisterCustomer = (data) => api.post("/add-customer", data);
+//get all customer
+export const GetAllCustomers = () => api.get("/get-customers");
+// delete customer
+export const DeleteCustomer = (id) => api.delete("/delete-customer/" + id);
+// update customer
+export const UpdateCustomer = (id, data) =>
+  api.put("/update-customer/" + id, data);
+// update customer total and remaining
 export const UpdateCustomerTotal = (id, data) =>
-  api.post("/update-customer-total/" + id, data);
-// Cash page
-export const AddCustomerPayment = (data) => api.post("/customer-payment", data);
-export const GetCustomerPayment = (data) =>
-  api.post("/get-customer-payment", data);
-export const UpdateCustomerPayment = (id, id1, data) =>
-  api.post("/update-customer-payment/" + id + "/" + id1, data);
-// ======================
-// xxxxxxxxxxxxxxxxxxxxxx
-// ======================
+  api.put("/update-customer-total/" + id, data);
+// update customer Account(+Paid and -Remaining)
+export const UpdateCustomerAccounts = (id, data) =>
+  api.put("/update-customer-accounts/" + id, data);
+// ===================================
+// Transactions
+// ===================================
+export const AddCustomerTransaction = (data) =>
+  api.post("/add-customer-transaction", data);
+// bill request
+export const GetCurrentBill = () => api.get("/get-bill-no");
+export const UpdateCurrentBill = () => api.put("/update-bill-no");
+// Expense Request
+export const AddNewExpense = (data) => api.post("/expenses", data);
+export const GetExpenses = (data) => api.post("/get-expenses", data);
+// Payment Request
+export const AddNewPayment = (data) => api.post("/add-transaction", data);
+export const GetAllPayment = (data) => api.post("/get-transaction", data);
 
-// Expense request
-export const AddNewExpense = (data) => api.post("/add-expense", data);
-export const GetAllExpenses = (Body) => api.post("/get-expense", Body);
-
-// temp request
-export const getImgData = () => api.get("/get-temp");
-
+// =====================================================
+// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+// =====================================================
 // interceptor
 api.interceptors.response.use(
   (config) => {

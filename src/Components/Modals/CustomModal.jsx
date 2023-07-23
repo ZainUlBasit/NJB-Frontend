@@ -21,9 +21,7 @@ const style = {
 };
 
 export default function CustomModal({ open, setOpen, title, children }) {
-  // const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
   return (
     <div>
       <Modal
@@ -42,11 +40,15 @@ export default function CustomModal({ open, setOpen, title, children }) {
         <Fade in={open}>
           <Box sx={style}>
             <Typography id="transition-modal-title" variant="h6" component="h2">
-              <div className="border-b-[2px] border-b-[#032248] text-[##032248] text-[1.6rem] font-[raleway] font-[700] uppercase text-center pb-[20px]">
+              <div className="border-b-[2px] border-b-[#032248] text-[##032248] text-[1.6rem] font-[raleway] font-[700] uppercase text-center pb-[20px] select-none">
                 {title}
               </div>
             </Typography>
-            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+            <Typography
+              id="transition-modal-description"
+              sx={{ mt: 2 }}
+              component={"div"}
+            >
               {children}
             </Typography>
           </Box>

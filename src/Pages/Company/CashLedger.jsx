@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import moment from "moment";
 
-const CashLedger = () => {
+const CashLedger = ({ id, fromdate, todate }) => {
   return (
-    <div>CashLedger</div>
-  )
-}
+    <>
+      <div>Cash Ledger</div>
+      <div>{`id: ${id}`}</div>
+      <div>{`From Date: ${fromdate}`}</div>
+      <div>{`To Date: ${todate}`}</div>
+    </>
+  );
+};
 
-export default CashLedger
+export default CashLedger;

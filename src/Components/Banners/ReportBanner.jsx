@@ -1,15 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DatePickerComp from "../DatePicker/DatePicker";
+import { api } from "../../Https";
+import TableComp from "../Tables/TableComponent";
+import { ExpenseColumns } from "../../assets/Columns/ExpenseColumns";
+import moment from "moment";
 
-const ReportBanner = ({
-  title,
-  OpenTable,
-  setOpenTable,
-  FromDate,
-  ToDate,
-  setFromDate,
-  setToDate,
-}) => {
+const ReportBanner = ({ title }) => {
+  const [OpenTable, setOpenTable] = useState(false);
+  const [FromDate, setFromDate] = useState("");
+  const [ToDate, setToDate] = useState("");
+  const [Data, setData] = useState([]);
+
+  const GetData = async () => {
+    let { data } = await api.post("/get-expenses", {
+      fromdate: FromDate,
+      todate: ToDate,
+    });
+    if (title === "Report Home") {
+      data = data.filter((dt) => dt.type === "Home");
+    } else if (title === "Report Shop") {
+      data = data.filter((dt) => dt.type === "Shop");
+    }
+    data = data.map((d) => {
+      return {
+        ...d,
+        date: moment(d.date).format("DD/MM/YYYY"),
+      };
+    });
+    setData(data);
+  };
+
+  useEffect(() => {
+    if (FromDate !== "" && ToDate !== "") {
+      GetData();
+    }
+  }, [FromDate, ToDate]);
   return (
     <>
       <div className="w-[100%] flex justify-center">
@@ -42,6 +67,11 @@ const ReportBanner = ({
           </div>
         </div>
       </div>
+      {OpenTable ? (
+        <TableComp title="Home Report" rows={Data} columns={ExpenseColumns} />
+      ) : (
+        <></>
+      )}
     </>
   );
 };

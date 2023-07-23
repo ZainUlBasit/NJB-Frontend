@@ -7,9 +7,11 @@ import { GetAllCompanies } from "../../Https";
 import EditCompany from "../../Components/Modals/EditCompany";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCompanies } from "../../store/Slices/CompanySlice";
+import DataLoader from "../../Components/Loader/DataLoader";
 
 const Company = () => {
   // Redux Toolkit
+  let Loading = useSelector((state) => state.CompanyReducer.loading);
   let Companies = useSelector((state) => state.CompanyReducer.data);
   const dispatch = useDispatch();
   // States
@@ -24,22 +26,22 @@ const Company = () => {
     <>
       <Navbar />
       <CompanyNav />
-      <TableComp
-        title="COMPANIES INFO"
-        rows={Companies}
-        columns={CompaniesInfoColumns}
-        setEditCompanyModal={setEditCompanyModal}
-        setSelID={setSelComp}
-      />
+      {Loading ? (
+        <DataLoader />
+      ) : (
+        <TableComp
+          title="COMPANIES INFO"
+          rows={Companies}
+          columns={CompaniesInfoColumns}
+          setEditCompanyModal={setEditCompanyModal}
+          setSelID={setSelComp}
+        />
+      )}
       {EditCompanyModal ? (
         <EditCompany
           open={EditCompanyModal}
           setOpen={setEditCompanyModal}
-          CompanyData={Companies.map((comp) => {
-            if (comp._id === selComp) {
-              return comp;
-            }
-          })}
+          CompanyData={Companies.filter((comp) => comp._id === selComp)}
         />
       ) : (
         <></>

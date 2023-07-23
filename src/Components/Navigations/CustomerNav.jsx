@@ -1,20 +1,18 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import { NavComp } from "./NavComp";
 import AdminNavButton from "./AdminNavButton";
-import InfoIcon from "@mui/icons-material/Info";
-import DomainAddIcon from "@mui/icons-material/DomainAdd";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import AddCompany from "../Modals/AddCompany";
+import AddCustomer from "../Modals/AddCustomer";
 
 const CustomerNav = () => {
-  const isActive_ = useSelector((state) => state.SideMenuReducer.ActiveState);
   const [Open, setOpen] = useState(false);
   return (
     <NavComp
-      isAct={isActive_}
-      className={isActive_ ? "isActiveStyling" : "isNotActiveStyling"}
+      isAct={false}
+      className={false ? "isActiveStyling" : "isNotActiveStyling"}
     >
       <div className="NavWrapper">
         {/* <AdminNavButton
@@ -25,6 +23,13 @@ const CustomerNav = () => {
           setOpen={setOpen}
         /> */}
         <AdminNavButton
+          title={"Add Customer"}
+          type={"modal"}
+          BIcon={PersonAddIcon}
+          width={"165px"}
+          setOpen={setOpen}
+        />
+        <AdminNavButton
           title={"Customer Info"}
           type={"link"}
           link={"/customer_info"}
@@ -32,16 +37,16 @@ const CustomerNav = () => {
           width={"170px"}
         />
         <AdminNavButton
-          title={"Add New Bill"}
+          title={"Customer Kata"}
           type={"link"}
-          link={"/add_new_bill"}
+          link={"/customer_kata"}
           BIcon={MenuBookIcon}
           width={"170px"}
         />
         <AdminNavButton
-          title={"Customer Kata"}
+          title={"Add New Bill"}
           type={"link"}
-          link={"/customer_kata"}
+          link={"/add_new_bill"}
           BIcon={MenuBookIcon}
           width={"170px"}
         />
@@ -60,7 +65,7 @@ const CustomerNav = () => {
           width={"170px"}
         />
       </div>
-      {Open ? <AddCompany setOpen={setOpen} open={Open} /> : <></>}
+      {Open ? <AddCustomer setOpen={setOpen} open={Open} /> : <></>}
     </NavComp>
   );
 };

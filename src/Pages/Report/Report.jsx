@@ -7,8 +7,8 @@ import ExpenseNav from "../../Components/Navigations/ExpenseNav";
 
 const Report = () => {
   const [OpenTable, setOpenTable] = useState(false);
-  const [FromDate, setFromDate] = useState(new Date());
-  const [ToDate, setToDate] = useState(new Date());
+  const [Data, setData] = useState([]);
+
   return (
     <>
       <Navbar />
@@ -17,10 +17,7 @@ const Report = () => {
         title={"Report Shop"}
         OpenTable={OpenTable}
         setOpenTable={setOpenTable}
-        FromDate={FromDate}
-        setFromDate={setFromDate}
-        ToDate={ToDate}
-        setToDate={setToDate}
+        setData={setData}
       />
       {OpenTable ? (
         <TableComp
