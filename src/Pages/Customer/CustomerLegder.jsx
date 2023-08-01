@@ -19,7 +19,7 @@ const CustomerLegder = () => {
   const [isItem, setIsItem] = useState(false);
   const [value, setValue] = useState("");
   const [Select, setSelect] = useState({
-    name: "",
+    id: "",
     found: false,
   });
   const [ShowMsg, setShowMsg] = useState(false);
@@ -77,9 +77,9 @@ const CustomerLegder = () => {
         Options={Customers}
       />
       {isCash ? (
-        <CashLedger />
+        <CashLedger id={Select.id} fromdate={FromDate} todate={ToDate} />
       ) : isItem ? (
-        <ItemLedger />
+        <ItemLedger id={Select.id} fromdate={FromDate} todate={ToDate} />
       ) : ShowMsg ? (
         <div className="w-[100%] flex justify-center">
           <div className="bg-red-700 text-white w-[80%] p-[10px] pr-[0px] border-[#032248] border-t-white border-[5px] border-t-[3px] font-[raleway] text-[1.3rem] font-bold">

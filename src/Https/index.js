@@ -13,6 +13,11 @@ export const api = axios.create({
 // export const logoutUser = () => api.get("/logout");
 // export const AutoLogin = () => api.get("/refresh");
 
+// Auth Routes
+export const LoginUser = (data) => api.post("/sign-in", data);
+export const logoutUser = (data) => api.post("/sign-out", data);
+export const AutoLogin = () => api.get("/refresh");
+
 // company request
 export const AddNewCompany = (data) => api.post("/add_company", data);
 export const GetAllCompanies = () => api.get("/get_companies");
@@ -55,11 +60,26 @@ export const UpdateCustomerTotal = (id, data) =>
 // update customer Account(+Paid and -Remaining)
 export const UpdateCustomerAccounts = (id, data) =>
   api.put("/update-customer-accounts/" + id, data);
-// ===================================
-// Transactions
-// ===================================
+export const UpdateCustomerAdvance = (data) =>
+  api.patch("/update-customer-advance", data);
+// ***********************************
+// Transactions (Customer Items)
+// ***********************************
 export const AddCustomerTransaction = (data) =>
   api.post("/add-customer-transaction", data);
+export const GetCustomerTransaction = (data) =>
+  api.post("/get-customer-transaction", data);
+export const GetAllCustomerTransaction = () =>
+  api.post("/get-all-customer-transaction");
+// ***********************************
+// Customer Item Return Request
+// ***********************************
+export const AddCustomerReturn = (data) =>
+  api.post("/add-customer-return", data);
+export const GetCustomerReturn = (data) =>
+  api.post("/get-customer-return", data);
+export const GetAllCustomerReturn = () => api.post("/get-all-customer-return");
+
 // bill request
 export const GetCurrentBill = () => api.get("/get-bill-no");
 export const UpdateCurrentBill = () => api.put("/update-bill-no");
@@ -69,6 +89,14 @@ export const GetExpenses = (data) => api.post("/get-expenses", data);
 // Payment Request
 export const AddNewPayment = (data) => api.post("/add-transaction", data);
 export const GetAllPayment = (data) => api.post("/get-transaction", data);
+// *********************************************
+// Bank account requests
+// *********************************************
+export const AddNewBankAccount = (data) => api.post("/add-bank-account", data);
+export const GetBankAccounts = () => api.get("/get-bank-accounts");
+export const UpdateBankAmount = (data) =>
+  api.patch("/update-bank-amount", data);
+// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 // =====================================================
 // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

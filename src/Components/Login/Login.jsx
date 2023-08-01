@@ -9,7 +9,12 @@ import {
   TextField,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { LoginUser } from "../../Https";
+import { SetAuth } from "../../store/Slices/AuthSlice";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
+import LoadingModal from "../Modals/LoadingModal";
 
 const Login = () => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -17,6 +22,44 @@ const Login = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
+  const dispatch = useDispatch();
+  const navigation = useNavigate();
+  const [Loading, setLoading] = useState(false);
+  // const [LogginIn, setLogginIn] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [ShowErrMsg, setShowErrMsg] = useState(false);
+  const [ErrMsg, setErrMsg] = useState("");
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      if (!email || !password) {
+        alert("please fill all fields");
+      } else {
+        const response = await LoginUser({ email: email, password: password });
+        if (response.status === 200) {
+          navigate("/", { replace: true });
+          setErrMsg("");
+          setShowErrMsg(false);
+          dispatch(SetAuth(response.data));
+        }
+      }
+    } catch (error) {
+      if (error.request.status === 422) {
+        setShowErrMsg(true);
+        setErrMsg("Incorrect Email or password");
+      } else if (error.request.status === 403) {
+        setShowErrMsg(true);
+        setErrMsg("Incorrect Email or password");
+      }
+    }
+    setLoading(false);
+  };
+
   return (
     <>
       {/* Main Wrapper */}
@@ -30,6 +73,13 @@ const Login = () => {
               Welcome Back
             </span>
           </div>
+          {ShowErrMsg ? (
+            <div className="text-[red] w-[100%] justify-center items-center text-center font-bold text-[1rem]">
+              {ErrMsg}
+            </div>
+          ) : (
+            <></>
+          )}
           {/* Form */}
           <form className="mb-[15px]">
             {/* email */}
@@ -41,6 +91,8 @@ const Login = () => {
                 sx={{ m: 1, width: "38ch", mb: "15px" }}
                 required
                 className="mb-[10px]"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
               {/* password */}
               <FormControl sx={{ m: 1, width: "38ch" }} variant="outlined">
@@ -51,6 +103,8 @@ const Login = () => {
                   id="outlined-adornment-password"
                   type={showPassword ? "text" : "password"}
                   required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton
@@ -69,8 +123,11 @@ const Login = () => {
             </div>
             {/* Buttons */}
             <div className="flex justify-center items-center mt-[15px]">
-              <button className="bg-[#0077b6] text-white w-[300px] py-[8px] font-[raleway] uppercase font-[700] text-[1.3rem] hover:bg-[#00b4d8] transition-all duration-500 hover:rounded-[8px]">
-                Login
+              <button
+                className="bg-[#0077b6] text-white w-[300px] py-[8px] font-[raleway] uppercase font-[700] text-[1.3rem] hover:bg-[#00b4d8] transition-all duration-500 hover:rounded-[8px]"
+                onClick={handleLogin}
+              >
+                {Loading ? "Logging in..." : "Login"}
               </button>
             </div>
           </form>
@@ -86,6 +143,7 @@ const Login = () => {
           </div>
         </div>
       </div>
+      {Loading ? <LoadingModal open={Loading} setOpen={setLoading} /> : <></>}
     </>
   );
 };

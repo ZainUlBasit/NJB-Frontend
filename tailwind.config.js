@@ -9,6 +9,7 @@ module.exports = {
       mobRes: { max: "500px" },
       returnRes: { max: "431px" },
       returnRes2: { max: "361px" },
+      mobbtn: { max: "440px" },
       // => @media (min-width: 640px) { ... }
 
       md: "768px",

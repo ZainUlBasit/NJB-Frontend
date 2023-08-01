@@ -25,6 +25,7 @@ const AddItem = ({ open, setOpen }) => {
       company: curCompany,
       desc: ItemDesc,
       purchase: ItemPurchase,
+      purchasee: ItemPurchasee,
       sale: ItemSale,
     };
     if (
@@ -50,6 +51,7 @@ const AddItem = ({ open, setOpen }) => {
   const [ItemCompany, setItemCompany] = useState("");
   const [ItemDesc, setItemDesc] = useState("");
   const [ItemPurchase, setItemPurchase] = useState("");
+  const [ItemPurchasee, setItemPurchasee] = useState("");
   const [ItemSale, setItemSale] = useState("");
 
   // redux toolkit
@@ -98,6 +100,15 @@ const AddItem = ({ open, setOpen }) => {
           name="itempurchase"
           value={ItemPurchase}
           setValue={setItemPurchase}
+        />
+        <SimpleTextInput
+          label="Enter Item Purchase Exp"
+          placeholder="Enter Item Purchase Exp"
+          type="number"
+          id="itempurchasee"
+          name="itempurchasee"
+          value={ItemPurchasee}
+          setValue={setItemPurchasee}
         />
         <SimpleTextInput
           label="Enter Item Sale"

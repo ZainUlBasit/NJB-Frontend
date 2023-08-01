@@ -14,14 +14,21 @@ import EnhancedEncryptionRoundedIcon from "@mui/icons-material/EnhancedEncryptio
 import LogoutIcon from "@mui/icons-material/Logout";
 import SecurityIcon from "@mui/icons-material/Security";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { logoutUser } from "../../Https";
+import axios from "axios";
+import CPModal from "../Modals/CPModal";
 // import { isOpenModal } from "../../store/CPSlice";
 
 const Navbar = () => {
   const isActive_ = useSelector((state) => state.SideMenuReducer.ActiveState);
+  const Auth = useSelector((state) => state.AuthReducer);
   const dispatch = useDispatch();
   const [isDropActive, setIsDropActive] = useState(false);
   const dropDownRef = useRef();
+  const navigate = useNavigate();
+
+  const [ChangePassword, setChangePassword] = useState(false);
 
   useEffect(() => {
     document.body.addEventListener("click", closeDropDown, true);
@@ -87,32 +94,18 @@ const Navbar = () => {
                 </div>
                 <div
                   className="LinkTextB select-none"
-                  // onClick={() => dispatch(isOpenModal())}
+                  onClick={() => setChangePassword(true)}
                 >
                   Change Password
                 </div>
               </li>
               <li>
-                <div className="LinkIcon">
-                  <SecurityIcon />
-                </div>
-                <div className="LinkTextB select-none">
-                  <Link to="/permissions">Permissions</Link>
-                </div>
-              </li>
-              <li>
-                <div className="LinkIcon">
-                  <SecurityIcon />
-                </div>
-                <div className="LinkTextB select-none">
-                  <Link to="/requests">Requests</Link>
-                </div>
-              </li>
-              <li>
-                <div className="LinkIcon">
-                  <LogoutIcon />
-                </div>
-                <div className="LinkTextB select-none">Logout</div>
+                <Link to="/logout" className="flex">
+                  <div className="LinkIcon">
+                    <LogoutIcon />
+                  </div>
+                  <div className="LinkTextB select-none">Logout</div>
+                </Link>
               </li>
             </ul>
           </div>
@@ -122,6 +115,11 @@ const Navbar = () => {
       <div className={isActive_ ? "visible_" : "invisible_"}>
         {isActive_ ? <SideMenu /> : null}
       </div>
+      {ChangePassword ? (
+        <CPModal open={ChangePassword} setOpen={setChangePassword} />
+      ) : (
+        <></>
+      )}
     </NavbarStyled>
   );
 };

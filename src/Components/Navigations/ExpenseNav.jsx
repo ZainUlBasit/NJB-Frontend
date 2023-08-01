@@ -42,6 +42,13 @@ const ExpenseNav = () => {
           width={"185px"}
           link={"/reports_daily"}
         />
+        <AdminNavButton
+          title={"Cash Summary"}
+          type={"link"}
+          BIcon={AccountBalanceWalletIcon}
+          width={"185px"}
+          link={"/cash_summary"}
+        />
         {AddExpenseModal ? (
           <AddExpense open={AddExpenseModal} setOpen={setAddExpenseModal} />
         ) : (

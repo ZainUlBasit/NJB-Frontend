@@ -4,7 +4,7 @@ import pageloading from "./pageloading.json";
 
 const PageLoader = () => {
   return (
-    <div className="flex justify-center items-center h-[10vh] w-full">
+    <div className="flex justify-center items-center h-[10vh] w-full select-none">
       <Lottie animationData={pageloading} loop={true} />
     </div>
   );

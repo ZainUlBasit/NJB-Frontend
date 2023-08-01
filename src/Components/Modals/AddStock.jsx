@@ -32,6 +32,7 @@ const AddStock = ({ open, setOpen }) => {
       name: curItem,
       qty: ItemQty,
       desc: ItemDesc,
+      purchase: purchase,
       invoice: ItemInvoice,
       truck: ItemTruck,
       date: ItemDate,

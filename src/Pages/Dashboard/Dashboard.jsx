@@ -1,11 +1,12 @@
 import React from "react";
 import Navbar from "../../Components/NavBar/NavBar";
+import LoadingConstruction from "../../Components/Loader/LoadingConstruction";
 
 const Dashboard = () => {
   return (
     <>
       <Navbar />
-      <div className="pt-[10.3vh]">Dashboard</div>
+      <LoadingConstruction />
     </>
   );
 };

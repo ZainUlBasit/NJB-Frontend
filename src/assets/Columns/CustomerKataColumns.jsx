@@ -5,6 +5,13 @@ export const CustomerKataColumns = [
     minWidth: 170,
   },
   {
+    id: "advance",
+    label: "Advance",
+    minWidth: 140,
+    align: "right",
+    format: (value) => value.toLocaleString("en-US"),
+  },
+  {
     id: "total",
     label: "Total",
     minWidth: 140,

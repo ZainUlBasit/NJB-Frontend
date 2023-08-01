@@ -49,6 +49,7 @@ const Items = () => {
                 company: v.company,
                 desc: v.desc,
                 purchase: v.purchase,
+                purchasee: v.purchasee,
                 sale: v.sale,
               };
             })}

@@ -7,11 +7,13 @@ import AddNewBillItem from "../../Components/Modals/AddNewBillItem";
 import { fetchCustomers } from "../../store/Slices/CustomerSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  AddCustomerReturn,
   AddCustomerTransaction,
   GetCurrentBill,
   UpdateCurrentBill,
   UpdateCustomerTotal,
 } from "../../Https";
+import { fetchItems } from "../../store/Slices/ItemSlice";
 
 const ItemReturn = () => {
   const [CurrentCustomer, setCurrentCustomer] = useState("");
@@ -21,6 +23,7 @@ const ItemReturn = () => {
   const [Open, setOpen] = useState(false);
   const [BillDetail, setBillDetail] = useState([]);
 
+  let Items = useSelector((state) => state.ItemReducer.data);
   const Customers = useSelector((state) => state.CustomerReducer.data);
   const dispatch = useDispatch();
   const onSubmit = async (e) => {
@@ -40,11 +43,10 @@ const ItemReturn = () => {
       });
       try {
         newBillDetail.map(async (nb) => {
-          await AddCustomerTransaction(nb);
-        });
-        await UpdateCustomerTotal(CurrentCustomer, {
-          total: Total,
-          discount: Discount,
+          const curItem = Items.filter((it) => it.name === nb.name);
+          const purchase = curItem[0].purchase;
+          const desc = curItem[0].desc;
+          await AddCustomerReturn({ ...nb, purchase: purchase, desc: desc });
         });
         await UpdateCurrentBill();
         setBillDetail([]);
@@ -67,6 +69,7 @@ const ItemReturn = () => {
 
   useEffect(() => {
     dispatch(fetchCustomers());
+    dispatch(fetchItems());
   }, []);
   return (
     <>

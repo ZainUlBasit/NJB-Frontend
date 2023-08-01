@@ -31,7 +31,7 @@ const ItemLedger = ({ id, fromdate, todate }) => {
       {Loading ? (
         <DataLoader />
       ) : (
-        <TableComp title="Cash Ledger" rows={Data} columns={StockColumns} />
+        <TableComp title="Item Ledger" rows={Data} columns={StockColumns} />
       )}
     </>
   );

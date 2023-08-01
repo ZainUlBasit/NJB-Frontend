@@ -4,6 +4,12 @@ export const StockColumns = [
     label: " Name",
     minWidth: 190,
     align: "left",
+  },
+  {
+    id: "purchase",
+    label: "Purchase",
+    minWidth: 150,
+    align: "right",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
@@ -11,34 +17,29 @@ export const StockColumns = [
     label: "Quantity",
     minWidth: 150,
     align: "right",
-    format: (value) => value.toLocaleString("en-US"),
   },
   {
     id: "desc",
     label: "Description",
     minWidth: 100,
     align: "right",
-    format: (value) => value.toLocaleString("en-US"),
   },
   {
     id: "invoice",
     label: "Invoice #",
     minWidth: 100,
     align: "right",
-    format: (value) => value.toLocaleString("en-US"),
   },
   {
     id: "truck",
     label: "Truck #",
     minWidth: 100,
     align: "right",
-    format: (value) => value.toLocaleString("en-US"),
   },
   {
     id: "date",
     label: "Date",
     minWidth: 100,
     align: "right",
-    format: (value) => value.toLocaleString("en-US"),
   },
 ];

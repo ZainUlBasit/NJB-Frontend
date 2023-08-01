@@ -38,6 +38,7 @@ export default function BillTable({ rows }) {
                     fontFamily: "'Raleway', sans-serif",
                     borderColor: "#032248",
                     borderWidth: "1px",
+                    userSelect: "none",
                   }}
                 >
                   {item.label}
